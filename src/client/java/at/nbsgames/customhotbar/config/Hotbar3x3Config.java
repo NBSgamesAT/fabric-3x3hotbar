@@ -1,4 +1,4 @@
-package nl.lankreijer.hotbar3x3.config;
+package at.nbsgames.customhotbar.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
@@ -6,7 +6,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 
 
-@Config(name="hotbar3x3")
+@Config(name="customhotbar")
 public class Hotbar3x3Config implements ConfigData {
     public enum HotbarMode {
         VANILLA("Vanilla"),
@@ -29,7 +29,8 @@ public class Hotbar3x3Config implements ConfigData {
         TOP_LEFT("Top left"),
         TOP_RIGHT("Top right"),
         BOTTOM_LEFT("Bottom left"),
-        BOTTOM_RIGHT("Bottom right");
+        BOTTOM_RIGHT("Bottom right"),
+        BOTTOM_MIDDLE( "Bottem Middle");
 
         final private String name;
 

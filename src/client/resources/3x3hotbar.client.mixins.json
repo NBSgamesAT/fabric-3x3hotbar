@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "nl.lankreijer.hotbar3x3.client",
+  "package": "at.nbsgames.customhotbar.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "InGameHudMixin"

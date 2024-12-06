@@ -1,25 +1,25 @@
 {
 	"schemaVersion": 1,
-	"id": "hotbar3x3",
+	"id": "custom-hotbar",
 	"version": "${version}",
-	"name": "3x3 Hotbar",
-	"description": "Adds a configurable 3x3 hotbar to your game",
+	"name": "Customizable Hotbar",
+	"description": "Adds a configurable 3x3 hotbar to your game and other things",
 	"authors": [
 		"stenlan"
 	],
 	"contact": {
-		"homepage": "https://github.com/stenlan/fabric-3x3hotbar",
-		"sources": "https://github.com/stenlan/fabric-3x3hotbar"
+		"homepage": "https://github.com/NBSgamesAT/fabric-3x3hotbar",
+		"sources": "https://github.com/NBSgamesAT/fabric-3x3hotbar/tree/nbs-custom-hotbar"
 	},
 	"license": "CC BY-NC-SA 4.0",
 	"icon": "assets/hotbar3x3/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-          "nl.lankreijer.hotbar3x3.Hotbar3x3Client"
+			"at.nbsgames.customhotbar.Hotbar3x3Client"
 		],
 		"modmenu": [
-			"nl.lankreijer.hotbar3x3.config.Hotbar3x3ModMenuIntegration"
+			"at.nbsgames.customhotbar.config.Hotbar3x3ModMenuIntegration"
 		]
 	},
 	"mixins": [

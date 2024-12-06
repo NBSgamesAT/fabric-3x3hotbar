@@ -1,4 +1,4 @@
-package nl.lankreijer.hotbar3x3.client;
+package at.nbsgames.customhotbar.client;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.gui.DrawContext;
@@ -8,7 +8,7 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import nl.lankreijer.hotbar3x3.config.Hotbar3x3Config;
+import at.nbsgames.customhotbar.config.Hotbar3x3Config;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

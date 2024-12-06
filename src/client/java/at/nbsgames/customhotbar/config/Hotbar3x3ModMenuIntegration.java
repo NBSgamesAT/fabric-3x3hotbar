@@ -1,4 +1,4 @@
-package nl.lankreijer.hotbar3x3.config;
+package at.nbsgames.customhotbar.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
