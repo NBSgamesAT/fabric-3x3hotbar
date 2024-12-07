@@ -1,8 +1,8 @@
 {
-  "text.autoconfig.hotbar3x3.title": "3x3 Hotbar Settings",
-  "text.autoconfig.hotbar3x3.option.hotbarMode": "Hotbar Mode",
-  "text.autoconfig.hotbar3x3.option.hotbarPosition": "Hotbar Position",
-  "text.autoconfig.hotbar3x3.option.hOffset": "Horizontal offset",
-  "text.autoconfig.hotbar3x3.option.vOffset": "Vertical offset",
-  "text.autoconfig.hotbar3x3.option.moveUIDDown": "Move UI Elements to the bottom of the screen"
+  "text.autoconfig.customhotbar.title": "3x3 Hotbar Settings",
+  "text.autoconfig.customhotbar.option.hotbarMode": "Hotbar Mode",
+  "text.autoconfig.customhotbar.option.hotbarPosition": "Hotbar Position",
+  "text.autoconfig.customhotbar.option.hOffset": "Horizontal offset",
+  "text.autoconfig.customhotbar.option.vOffset": "Vertical offset",
+  "text.autoconfig.customhotbar.option.moveUIDDown": "Move UI Elements to the bottom of the screen"
 }
