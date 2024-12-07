@@ -5,7 +5,8 @@
 	"name": "Customizable Hotbar",
 	"description": "Adds a configurable 3x3 hotbar to your game and other things",
 	"authors": [
-		"stenlan"
+		"stenlan",
+		"NBSgamesAT"
 	],
 	"contact": {
 		"homepage": "https://github.com/NBSgamesAT/fabric-3x3hotbar",

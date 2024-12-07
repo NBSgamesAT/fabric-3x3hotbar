@@ -1,0 +1,26 @@
+package at.nbsgames.customhotbar;
+
+public enum EnumPixelMagicNumbers {
+
+  UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION(21),
+  UI_ELEMENTS_MOVE_SIDE_ON_COMPACT(23),
+  UI_OVERLAY_TEXT_OFFSET_ON_BOTTOM_MIDDLE_POSITION(44),
+  UI_ITEM_TOOLTIP_OFFSET_ON_BOTTOM_MIDDLE_POSITION(45),
+
+  UI_OVERLAY_TEXT_OFFSET_ON_COMPACT_POSITION(30),
+  UI_ITEM_TOOLTIP_OFFSET_ON_COMPACT_POSITION(31),
+
+  UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION(30),
+  UI_OFFHAND_SLOT_OFFSET_ON_COMPACT(6),
+  UI_HOTBAR_OFFSET_ON_COMPACT_POSITION(16);
+
+  EnumPixelMagicNumbers(int offset){
+    this.offset = offset;
+  }
+
+  final private int offset;
+
+  public int getOffset() {
+    return offset;
+  }
+}

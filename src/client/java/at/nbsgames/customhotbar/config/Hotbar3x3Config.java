@@ -30,7 +30,8 @@ public class Hotbar3x3Config implements ConfigData {
         TOP_RIGHT("Top right"),
         BOTTOM_LEFT("Bottom left"),
         BOTTOM_RIGHT("Bottom right"),
-        BOTTOM_MIDDLE( "Bottem Middle");
+        BOTTOM_MIDDLE( "Bottem Middle"),
+        BUTTOM_MIDDLE_COMPACT("Buttom Middle (COMPACT)");
 
         final private String name;
 
@@ -49,6 +50,8 @@ public class Hotbar3x3Config implements ConfigData {
 
     @ConfigEntry.BoundedDiscrete(min=0, max=500)
     public int vOffset = 10;
+
+    public boolean moveUIDDown = false;
 
     // public boolean moveBars = true;
 

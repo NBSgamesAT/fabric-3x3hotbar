@@ -4,5 +4,5 @@
   "text.autoconfig.hotbar3x3.option.hotbarPosition": "Hotbar Position",
   "text.autoconfig.hotbar3x3.option.hOffset": "Horizontal offset",
   "text.autoconfig.hotbar3x3.option.vOffset": "Vertical offset",
-  "text.autoconfig.hotbar3x3.option.moveBars": "Move other bars down"
+  "text.autoconfig.hotbar3x3.option.moveUIDDown": "Move UI Elements to the bottom of the screen"
 }
