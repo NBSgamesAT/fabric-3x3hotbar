@@ -13,7 +13,7 @@
 		"sources": "https://github.com/NBSgamesAT/fabric-3x3hotbar/tree/nbs-custom-hotbar"
 	},
 	"license": "CC BY-NC-SA 4.0",
-	"icon": "assets/hotbar3x3/icon.png",
+	"icon": "assets/customhotbar/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"client": [
@@ -31,10 +31,10 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.8",
-		"minecraft": "~1.21.3",
+		"minecraft": ["~1.21.3", "~1.21.4"],
 		"java": ">=21",
 		"fabric-api": "*",
-		"cloth-config": "~16.0",
-		"modmenu": [">=12.0.0-beta.1", "<=12.1.0"]
+		"cloth-config": ["~16.0.0", "~17.0.0"],
+		"modmenu": [">=12.0.0-beta.1", "<=12.0.0", ">=13.0.0-beta.1", "<=13.0.0", ">=14.0.0-beta.1", "<=14.0.0"]
 	}
 }

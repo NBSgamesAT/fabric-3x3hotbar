@@ -5,6 +5,7 @@ import at.nbsgames.customhotbar.config.Hotbar3x3Config;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
@@ -382,13 +383,21 @@ public abstract class InGameHudMixin {
 	private int modifySelectedItemNameTextY(int value){
 		if (this.moveUIDown()) {
 			if(this.isCompactOn()){
-				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_COMPACT_POSITION.getOffset();
+				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_COMPACT_POSITION.getOffset() - 14;
 			}
 			else {
-				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() -14;
 			}
 		}
 		return value;
+	}
+
+	@Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;hasStatusBars()Z", ordinal = 0))
+	private boolean modifySelectedItemNameContextCheck(ClientPlayerInteractionManager interactionManager){
+		if(this.moveUIDown()){
+			return false;
+		}
+		return interactionManager.hasStatusBars();
 	}
 
 	@ModifyArg(method = "renderOverlayMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 0), index = 1)
