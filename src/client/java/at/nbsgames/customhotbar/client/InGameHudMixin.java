@@ -2,9 +2,11 @@ package at.nbsgames.customhotbar.client;
 
 import at.nbsgames.customhotbar.EnumPixelMagicNumbers;
 import at.nbsgames.customhotbar.config.Hotbar3x3Config;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.gui.hud.bar.Bar;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
@@ -25,6 +27,7 @@ import java.util.function.Function;
 public abstract class InGameHudMixin {
 	@Unique
 	private Hotbar3x3Config hotbarConfig;
+
 	@Unique
 	private static Hotbar3x3Config staticHotbarConfig;
 
@@ -137,13 +140,10 @@ public abstract class InGameHudMixin {
 
 	@Unique
 	private boolean moveUIDown(){
-		if((this.hotbarConfig.moveUIDDown ||
-				this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE ||
-				this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA){
-			return true;
-		}
-		return false;
-	}
+    return (this.hotbarConfig.moveUIDDown ||
+       this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE ||
+       this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
+  }
 
 	@Unique
 	private boolean isCompactOn(){
@@ -165,19 +165,16 @@ public abstract class InGameHudMixin {
 		}
 	}
 
-	@Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
-	private void drawHotbarTexture(DrawContext context, Function<Identifier, RenderLayer> renderLayers, Identifier _texture, int _x, int _y, int _width, int _height) {
+	@Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
+	private void drawHotbarTexture(DrawContext context, RenderPipeline renderPipeline, Identifier _texture, int _x, int _y, int _width, int _height) {
 		int centerX = context.getScaledWindowWidth() / 2;
 		if (this.hotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) {
-			context.drawGuiTexture(renderLayers, HOTBAR_TEXTURE, centerX - SINGLE_HOTBAR_WIDTH / 2, context.getScaledWindowHeight() - SINGLE_HOTBAR_HEIGHT, SINGLE_HOTBAR_WIDTH, SINGLE_HOTBAR_HEIGHT);
+			context.drawGuiTexture(renderPipeline, HOTBAR_TEXTURE, centerX - SINGLE_HOTBAR_WIDTH / 2, context.getScaledWindowHeight() - SINGLE_HOTBAR_HEIGHT, SINGLE_HOTBAR_WIDTH, SINGLE_HOTBAR_HEIGHT);
 		} else {
-			context.drawBorder(
-				get3x3HotbarTopLeftX(context), get3x3HotbarTopLeftY(context),
-				_3X3_HOTBAR_WIDTH, _3X3_HOTBAR_HEIGHT,
-				0xFF000000
-			);
+      drawBorderNbs(context, get3x3HotbarTopLeftX(context), get3x3HotbarTopLeftY(context), _3X3_HOTBAR_WIDTH, _3X3_HOTBAR_HEIGHT, 0xff000000);
+      //context.draw
 			for (int row = 0; row < 3; row++) {
-				context.drawGuiTexture(renderLayers, HOTBAR_TEXTURE,
+				context.drawGuiTexture(renderPipeline, HOTBAR_TEXTURE,
 					SINGLE_HOTBAR_WIDTH /* source texture width */, SINGLE_HOTBAR_HEIGHT /* source texture height */,
 					HOTBAR_BORDER_THICKNESS + row * SINGLE_HOTBAR_WIDTH_BORDERLESS / 3 /* u */, HOTBAR_BORDER_THICKNESS /* v */,
 					get3x3HotbarTopLeftX(context) + HOTBAR_BORDER_THICKNESS, get3x3HotbarTopLeftY(context) + HOTBAR_BORDER_THICKNESS + row * HOTBAR_SLOT_SIZE,
@@ -187,16 +184,28 @@ public abstract class InGameHudMixin {
 		}
 	}
 
-	@Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
-	private void drawHotbarSelectionTexture(DrawContext context, Function<Identifier, RenderLayer> renderLayers, Identifier _texture, int _x, int _y, int _width, int _height) {
-		int selectedSlot = this.getCameraPlayer().getInventory().selectedSlot;
+  @Unique
+  public void drawBorderNbs(DrawContext context, int leftX, int topY, int width, int height, int color){
+    // Calculate Points
+    int rightX = leftX + width - 1;
+    int bottomY = topY + height - 1;
+    context.drawHorizontalLine(leftX, rightX, topY, color);
+    context.drawHorizontalLine(leftX, rightX, bottomY, color);
+
+    context.drawVerticalLine(rightX, topY, bottomY, color);
+    context.drawVerticalLine(leftX, topY, bottomY, color);
+  }
+
+	@Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
+	private void drawHotbarSelectionTexture(DrawContext context, RenderPipeline renderPipeline, Identifier _texture, int _x, int _y, int _width, int _height) {
+		int selectedSlot = this.getCameraPlayer().getInventory().getSelectedSlot();
 
 		context.drawGuiTexture(
-			renderLayers, HOTBAR_SELECTION_TEXTURE, getHotbarSlotTopLeftX(context, selectedSlot) - 2, getHotbarSlotTopLeftY(context, selectedSlot) - 2, 24, 23
+      renderPipeline, HOTBAR_SELECTION_TEXTURE, getHotbarSlotTopLeftX(context, selectedSlot) - 2, getHotbarSlotTopLeftY(context, selectedSlot) - 2, 24, 23
 		);
 
 		context.drawGuiTexture( // draw bottom border using top border of selection texture
-			renderLayers,
+      renderPipeline,
 			HOTBAR_SELECTION_TEXTURE,
 			24, 23,
 			0, 0,
@@ -220,9 +229,9 @@ public abstract class InGameHudMixin {
 	@ModifyArgs(method = "renderHotbar",
 		slice = @Slice(
 			from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"),
-			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;pop()V")
+			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;getScaledWindowHeight()I", ordinal = 4)
 		),
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0)
 	)
 	private void modifyOffhandSlotLeft(Args args){
 		if (this.isBottomMiddle()) {
@@ -234,9 +243,9 @@ public abstract class InGameHudMixin {
 	@ModifyArgs(method = "renderHotbar",
 		slice = @Slice(
 			from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"),
-			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;pop()V")
+			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;getScaledWindowHeight()I", ordinal = 4)
 		),
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1)
 	)
 	private void modifyOffhandSlotRight(Args args){
 		if (this.isBottomMiddle()) {
@@ -275,21 +284,21 @@ public abstract class InGameHudMixin {
 
 	// ------------------------------- All the NON HOT BAR RELATED STUFF.
 
-	@ModifyVariable(method = "renderExperienceBar", at = @At("STORE"), ordinal=3)
+	/*@ModifyVariable(method = "renderExperienceBar", at = @At("STORE"), ordinal=3)
 	private int modifyExperienceBarY(int value) {
 		if (this.moveUIDown()) {
 			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
 		return value;
-	}
+	}*/
 
-	@ModifyVariable(method="renderExperienceLevel", at=@At("STORE"), ordinal=1)
+	/*@ModifyVariable(method="renderExperienceLevel", at=@At("STORE"), ordinal=1)
 	private int modifyExperienceLevelY(int value){
 		if (this.moveUIDown()) {
 			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
 		return value;
-	}
+	}*/
 
 	@ModifyVariable(method = "renderHealthBar", at = @At("HEAD"), ordinal = 1, argsOnly = true)
 	private int modifyHealthBarY(int value){
@@ -371,13 +380,13 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyVariable(method = "renderMountJumpBar", at = @At("STORE"), ordinal = 2)
+	/*@ModifyVariable(method = "renderMountJumpBar", at = @At("STORE"), ordinal = 2)
 	private int modifyMountJumpBarY(int value){
 		if (this.moveUIDown()) {
 			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
 		return value;
-	}
+	}*/
 
 	@ModifyVariable(method = "renderHeldItemTooltip", at = @At("STORE"), ordinal = 2)
 	private int modifySelectedItemNameTextY(int value){
@@ -400,7 +409,7 @@ public abstract class InGameHudMixin {
 		return interactionManager.hasStatusBars();
 	}
 
-	@ModifyArg(method = "renderOverlayMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 0), index = 1)
+	@ModifyArg(method = "renderOverlayMessage", at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;translate(FF)Lorg/joml/Matrix3x2f;", ordinal = 0), index = 1)
 	private float modifyActionBarPositionY(float value){
 		if (this.moveUIDown()) {
 			if(this.isCompactOn()){
