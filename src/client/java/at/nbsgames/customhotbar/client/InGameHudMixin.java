@@ -284,22 +284,6 @@ public abstract class InGameHudMixin {
 
 	// ------------------------------- All the NON HOT BAR RELATED STUFF.
 
-	/*@ModifyVariable(method = "renderExperienceBar", at = @At("STORE"), ordinal=3)
-	private int modifyExperienceBarY(int value) {
-		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
-		}
-		return value;
-	}*/
-
-	/*@ModifyVariable(method="renderExperienceLevel", at=@At("STORE"), ordinal=1)
-	private int modifyExperienceLevelY(int value){
-		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
-		}
-		return value;
-	}*/
-
 	@ModifyVariable(method = "renderHealthBar", at = @At("HEAD"), ordinal = 1, argsOnly = true)
 	private int modifyHealthBarY(int value){
 		if (this.moveUIDown()) {
@@ -379,14 +363,6 @@ public abstract class InGameHudMixin {
 		}
 		return value;
 	}
-
-	/*@ModifyVariable(method = "renderMountJumpBar", at = @At("STORE"), ordinal = 2)
-	private int modifyMountJumpBarY(int value){
-		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
-		}
-		return value;
-	}*/
 
 	@ModifyVariable(method = "renderHeldItemTooltip", at = @At("STORE"), ordinal = 2)
 	private int modifySelectedItemNameTextY(int value){
