@@ -3,8 +3,8 @@
   "package": "at.nbsgames.customhotbar.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "HudBarMixin",
-    "InGameHudMixin"
+    "GuiMixin",
+    "ContextualBarRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
