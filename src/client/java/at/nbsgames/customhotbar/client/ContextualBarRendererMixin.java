@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ContextualBarRenderer.class)
 public interface ContextualBarRendererMixin {
 
-  @ModifyVariable(method = "renderExperienceLevel", at = @At(value = "STORE"), ordinal = 2)
+  @ModifyVariable(method = "extractExperienceLevel", at = @At(value = "STORE"), name = "y")
   private static int adjustExpLevelDown(int initialValue){
     if(Hotbar3x3Client.moveUIDown()){
       return initialValue + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
