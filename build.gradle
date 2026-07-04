@@ -99,7 +99,7 @@ modrinth {
 	projectId = 'hotbar3x3'
 	versionNumber = project.mod_version
 	uploadFile = jar
-	gameVersions = ['26.1']
+	gameVersions = ['26.2']
 	loaders = ['fabric']
 	dependencies {
 		required.project 'fabric-api'
