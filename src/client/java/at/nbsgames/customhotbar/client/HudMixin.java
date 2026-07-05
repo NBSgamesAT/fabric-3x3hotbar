@@ -212,13 +212,13 @@ public abstract class HudMixin {
 		);
 	}
 
-	@ModifyArg(method = "extractItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0), index = 1)
+	@ModifyArg(method = "extractItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0), index = 1)
 	private int modifyRenderHotbarItemX(GuiGraphicsExtractor context, int _x, int _y, DeltaTracker _tickCounter, Player _player, ItemStack _stack, int seed) {
 		int itemIndex = seed - 1; // could also be something like (x - context.guiWidth() / 2 + 90 - 2) / 20
 		return getHotbarItemTopLeftX(context, itemIndex);
 	}
 
-	@ModifyArg(method = "extractItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0), index = 2)
+	@ModifyArg(method = "extractItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0), index = 2)
 	private int modifyRenderHotbarItemY(GuiGraphicsExtractor context, int _x, int _y, DeltaTracker _tickCounter, Player _player, ItemStack _stack, int seed) {
 		int itemIndex = seed - 1; // could also be something like (x - context.guiWidth() / 2 + 90 - 2) / 20
 		return getHotbarItemTopLeftY(context, itemIndex);
@@ -255,10 +255,10 @@ public abstract class HudMixin {
 
 	@ModifyArgs(method = "extractItemHotbar",
 		slice = @Slice(
-			from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0),
+			from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0),
 			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;")
 		),
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 1)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 1)
 	)
 	private void modifyOffhandItemLeft(Args args){
 		if (this.isBottomMiddle()) {
@@ -268,10 +268,10 @@ public abstract class HudMixin {
 	}
 	@ModifyArgs(method = "extractItemHotbar",
 		slice = @Slice(
-			from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0),
+			from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 0),
 			to = @At(value = "INVOKE", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;")
 		),
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 2)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V", ordinal = 2)
 	)
 	private void modifyOffhandItemRight(Args args){
 		if (this.isBottomMiddle()) {
@@ -282,97 +282,97 @@ public abstract class HudMixin {
 
 	// ------------------------------- All the NON HOT BAR RELATED STUFF.
 
-	@ModifyVariable(method = "extractHearts", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-	private int modifyHealthBarY(int value){
+	@ModifyVariable(method = "extractHearts", at = @At("HEAD"), argsOnly = true, name = "yLineBase")
+	private int modifyHealthBarY(int yLineBase){
 		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+			return yLineBase + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
-		return value;
+		return yLineBase;
 	}
-	@ModifyVariable(method = "extractHearts", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-	private int modifyHealthBarX(int value){
+	@ModifyVariable(method = "extractHearts", at = @At("HEAD"), argsOnly = true, name = "xLeft")
+	private int modifyHealthBarX(int xLeft){
 		if (this.isCompactOn()) {
-			return value - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
+			return xLeft - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
-		return value;
+		return xLeft;
 	}
 
-	@ModifyVariable(method = "extractFood", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-	private int modifyFoodBarY(int value){
+	@ModifyVariable(method = "extractFood", at = @At("HEAD"), argsOnly = true, name = "yLineBase")
+	private int modifyFoodBarY(int yLineBase){
 		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+			return yLineBase + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
-		return value;
+		return yLineBase;
 	}
-	@ModifyVariable(method = "extractFood", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-	private int modifyFoodBarX(int value){
+	@ModifyVariable(method = "extractFood", at = @At("HEAD"), argsOnly = true, name = "xRight")
+	private int modifyFoodBarX(int xRight){
 		if (this.isCompactOn()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
+			return xRight + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
-		return value;
+		return xRight;
 	}
 
-	@ModifyVariable(method = "extractArmor", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-	private static int modifyArmourY(int value){
-		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
+	@ModifyVariable(method = "extractArmor", at = @At("HEAD"), argsOnly = true, name = "yLineBase")
+	private static int modifyArmourY(int yLineBase){
+		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return yLineBase;
 
 		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE || HudMixin.staticHotbarConfig.moveUIDDown || HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+			return yLineBase + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
-		return value;
+		return yLineBase;
 	}
 
-	@ModifyVariable(method = "extractArmor", at = @At("STORE"), ordinal = 7)
-	private static int modifyArmourX(int value){
-		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
+	@ModifyVariable(method = "extractArmor", at = @At("STORE"), name = "xo")
+	private static int modifyArmourX(int xo){
+		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return xo;
 
 		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
-			return value - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
+			return xo - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
-		return value;
+		return xo;
 	}
 
-	@ModifyVariable(method = "extractAirBubbles", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-	private int modifyAirBubblesY(int value){
+	@ModifyVariable(method = "extractAirBubbles", at = @At("HEAD"), argsOnly = true, name = "yLineAir")
+	private int modifyAirBubblesY(int yLineAir){
 		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+			return yLineAir + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
-		return value;
+		return yLineAir;
 	}
-	@ModifyVariable(method = "extractAirBubbles", at = @At("HEAD"), ordinal = 2, argsOnly = true)
-	private int modifyAirBubblesX(int value){
+	@ModifyVariable(method = "extractAirBubbles", at = @At("HEAD"), argsOnly = true, name = "xRight")
+	private int modifyAirBubblesX(int xRight){
 		if (this.isCompactOn()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
+			return xRight + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
-		return value;
+		return xRight;
 	}
 
-	@ModifyVariable(method = "extractVehicleHealth", at = @At("STORE"), ordinal = 2)
-	private int modifyMountHealthY(int value){
+	@ModifyVariable(method = "extractVehicleHealth", at = @At("STORE"), name = "yLine1")
+	private int modifyMountHealthY(int yLine1){
 		if (this.moveUIDown()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+			return yLine1 + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
-		return value;
+		return yLine1;
 	}
-	@ModifyVariable(method = "extractVehicleHealth", at = @At("STORE"), ordinal = 3)
-	private int modifyMountHealthX(int value){
+	@ModifyVariable(method = "extractVehicleHealth", at = @At("STORE"), name = "xRight")
+	private int modifyMountHealthX(int xRight){
 		if (this.isCompactOn()) {
-			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
+			return xRight + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
-		return value;
+		return xRight;
 	}
 
-	@ModifyVariable(method = "extractSelectedItemName", at = @At("STORE"), ordinal = 2)
-	private int modifySelectedItemNameTextY(int value){
+	@ModifyVariable(method = "extractSelectedItemName", at = @At("STORE"), name = "y")
+	private int modifySelectedItemNameTextY(int y){
 		if (this.moveUIDown()) {
 			if(this.isCompactOn()){
-				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_COMPACT_POSITION.getOffset() - 14;
+				return y - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_COMPACT_POSITION.getOffset() - 14;
 			}
 			else {
-				return value - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() -14;
+				return y - EnumPixelMagicNumbers.UI_ITEM_TOOLTIP_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() -14;
 			}
 		}
-		return value;
+		return y;
 	}
 
 	@Redirect(method = "extractSelectedItemName", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;canHurtPlayer()Z", ordinal = 0))
