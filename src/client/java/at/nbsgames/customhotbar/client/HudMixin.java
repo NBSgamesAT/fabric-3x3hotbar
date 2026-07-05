@@ -6,10 +6,9 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
@@ -21,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-@Mixin(Gui.class)
-public abstract class GuiMixin {
+@Mixin(Hud.class)
+public abstract class HudMixin {
 	@Unique
 	private Hotbar3x3Config hotbarConfig;
 
@@ -73,7 +72,7 @@ public abstract class GuiMixin {
 	@Inject(at = @At("TAIL"), method = "<init>")
 	private void constructorMixin(final Minecraft minecraft, CallbackInfo ci) {
 		this.hotbarConfig = AutoConfig.getConfigHolder(Hotbar3x3Config.class).getConfig();
-		GuiMixin.staticHotbarConfig = AutoConfig.getConfigHolder(Hotbar3x3Config.class).getConfig();
+		HudMixin.staticHotbarConfig = AutoConfig.getConfigHolder(Hotbar3x3Config.class).getConfig();
 	}
 
 	@Unique
@@ -315,9 +314,9 @@ public abstract class GuiMixin {
 
 	@ModifyVariable(method = "extractArmor", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private static int modifyArmourY(int value){
-		if (GuiMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
+		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
 
-		if (GuiMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE || GuiMixin.staticHotbarConfig.moveUIDDown || GuiMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
+		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE || HudMixin.staticHotbarConfig.moveUIDDown || HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
 			return value + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
 		return value;
@@ -325,9 +324,9 @@ public abstract class GuiMixin {
 
 	@ModifyVariable(method = "extractArmor", at = @At("STORE"), ordinal = 7)
 	private static int modifyArmourX(int value){
-		if (GuiMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
+		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return value;
 
-		if (GuiMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
+		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
 			return value - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
 		return value;
