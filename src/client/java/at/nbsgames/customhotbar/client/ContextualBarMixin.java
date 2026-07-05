@@ -2,15 +2,15 @@ package at.nbsgames.customhotbar.client;
 
 import at.nbsgames.customhotbar.EnumPixelMagicNumbers;
 import at.nbsgames.customhotbar.Hotbar3x3Client;
-import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
+import net.minecraft.client.gui.contextualbar.ContextualBar;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ContextualBarRenderer.class)
-public interface ContextualBarRendererMixin {
+@Mixin(ContextualBar.class)
+public interface ContextualBarMixin {
 
   @ModifyVariable(method = "extractExperienceLevel", at = @At(value = "STORE"), name = "y")
   private static int adjustExpLevelDown(int initialValue){
