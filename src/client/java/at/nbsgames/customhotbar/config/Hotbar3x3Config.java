@@ -30,8 +30,8 @@ public class Hotbar3x3Config implements ConfigData {
         TOP_RIGHT("Top right"),
         BOTTOM_LEFT("Bottom left"),
         BOTTOM_RIGHT("Bottom right"),
-        BOTTOM_MIDDLE( "Bottem Middle"),
-        BUTTOM_MIDDLE_COMPACT("Buttom Middle (COMPACT)");
+        BOTTOM_MIDDLE( "Bottom Middle"),
+        BOTTOM_MIDDLE_COMPACT("Bottom Middle (COMPACT)");
 
         final private String name;
 

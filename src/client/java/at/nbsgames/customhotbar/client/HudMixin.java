@@ -128,7 +128,7 @@ public abstract class HudMixin {
 			return this.hotbarConfig.vOffset;
 		} else if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE) {
 			return context.guiHeight() - SINGLE_HOTBAR_HEIGHT - (HOTBAR_SLOT_SIZE * 2) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset();
-		} else if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
+		} else if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT) {
 			return context.guiHeight() - SINGLE_HOTBAR_HEIGHT - (HOTBAR_SLOT_SIZE * 2) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_COMPACT_POSITION.getOffset();
 		} else {
 			return context.guiHeight() - _3X3_HOTBAR_HEIGHT - this.hotbarConfig.vOffset;
@@ -139,17 +139,17 @@ public abstract class HudMixin {
 	private boolean moveUIDown(){
     return (this.hotbarConfig.moveUIDDown ||
        this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE ||
-       this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
+       this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
   }
 
 	@Unique
 	private boolean isCompactOn(){
-    return this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
+    return this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
   }
 
 	@Unique
 	private boolean isBottomMiddle(){
-		return (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT || this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
+		return (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT || this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE) && this.hotbarConfig.hotbarMode != Hotbar3x3Config.HotbarMode.VANILLA;
 	}
 
 	@Unique
@@ -316,7 +316,7 @@ public abstract class HudMixin {
 	private static int modifyArmourY(int yLineBase){
 		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return yLineBase;
 
-		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE || HudMixin.staticHotbarConfig.moveUIDDown || HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
+		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE || HudMixin.staticHotbarConfig.moveUIDDown || HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT) {
 			return yLineBase + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		}
 		return yLineBase;
@@ -326,7 +326,7 @@ public abstract class HudMixin {
 	private static int modifyArmourX(int xo){
 		if (HudMixin.staticHotbarConfig.hotbarMode == Hotbar3x3Config.HotbarMode.VANILLA) return xo;
 
-		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BUTTOM_MIDDLE_COMPACT) {
+		if (HudMixin.staticHotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT) {
 			return xo - EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_SIDE_ON_COMPACT.getOffset();
 		}
 		return xo;
