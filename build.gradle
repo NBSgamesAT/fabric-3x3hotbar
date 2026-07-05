@@ -96,10 +96,10 @@ import com.modrinth.minotaur.dependencies.ModDependency
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
-	projectId = 'hotbar3x3'
+	projectId = '3x3-customizable-hotbar'
 	versionNumber = project.mod_version
 	uploadFile = jar
-	gameVersions = ['26.2']
+	gameVersions = ['26.2.X']
 	loaders = ['fabric']
 	dependencies {
 		required.project 'fabric-api'
