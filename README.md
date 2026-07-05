@@ -5,6 +5,7 @@ This mod adds a 3x3 customizable hotbar to the game. This is for people using an
 ## Dependencies
 This mod requires the following mods to be installed
 - Fabric (Modloader)
+- [Fabric API](https://modrinth.com/mod/fabric-api) (For modding support)
 - [Cloth Config API](https://modrinth.com/mod/cloth-config) (For configurable options)
 - [ModMenu](https://modrinth.com/mod/modmenu) (So you can actually change those options)
 
