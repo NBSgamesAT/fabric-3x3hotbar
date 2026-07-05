@@ -127,7 +127,7 @@ public abstract class HudMixin {
 		if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.TOP_LEFT || this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.TOP_RIGHT) {
 			return this.hotbarConfig.vOffset;
 		} else if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE) {
-			return context.guiHeight() - SINGLE_HOTBAR_HEIGHT - (HOTBAR_SLOT_SIZE * 2) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset();
+			return context.guiHeight() - SINGLE_HOTBAR_HEIGHT - (HOTBAR_SLOT_SIZE * 2) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset();
 		} else if (this.hotbarConfig.hotbarPosition == Hotbar3x3Config.HotbarPosition.BOTTOM_MIDDLE_COMPACT) {
 			return context.guiHeight() - SINGLE_HOTBAR_HEIGHT - (HOTBAR_SLOT_SIZE * 2) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_COMPACT_POSITION.getOffset();
 		} else {
@@ -155,10 +155,10 @@ public abstract class HudMixin {
 	@Unique
 	private void offhandSlotHeight(Args args, int i){
 		if(this.isCompactOn()){
-			args.set(i, (int) args.get(i) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset() - EnumPixelMagicNumbers.UI_OFFHAND_SLOT_OFFSET_ON_COMPACT.getOffset());
+			args.set(i, (int) args.get(i) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() - EnumPixelMagicNumbers.UI_OFFHAND_SLOT_OFFSET_ON_COMPACT.getOffset());
 		}
 		else{
-			args.set(i, (int) args.get(i) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset());
+			args.set(i, (int) args.get(i) - EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset());
 		}
 	}
 
@@ -233,7 +233,7 @@ public abstract class HudMixin {
 	)
 	private void modifyOffhandSlotLeft(Args args){
 		if (this.isBottomMiddle()) {
-			args.set(2, (int) args.get(2) + (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset() * 2));
+			args.set(2, (int) args.get(2) + (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() * 2));
 			this.offhandSlotHeight(args, 3);
 		}
 	}
@@ -247,7 +247,7 @@ public abstract class HudMixin {
 	)
 	private void modifyOffhandSlotRight(Args args){
 		if (this.isBottomMiddle()) {
-			args.set(2, (int) args.get(2) - (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset() * 2));
+			args.set(2, (int) args.get(2) - (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() * 2));
 			this.offhandSlotHeight(args, 3);
 		}
 	}
@@ -262,7 +262,7 @@ public abstract class HudMixin {
 	)
 	private void modifyOffhandItemLeft(Args args){
 		if (this.isBottomMiddle()) {
-			args.set(1, (int) args.get(1) + (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset() * 2));
+			args.set(1, (int) args.get(1) + (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() * 2));
 			this.offhandSlotHeight(args, 2);
 		}
 	}
@@ -275,7 +275,7 @@ public abstract class HudMixin {
 	)
 	private void modifyOffhandItemRight(Args args){
 		if (this.isBottomMiddle()) {
-			args.set(1, (int) args.get(1) - (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BUTTOM_MIDDLE_POSITION.getOffset() * 2));
+			args.set(1, (int) args.get(1) - (EnumPixelMagicNumbers.UI_HOTBAR_OFFSET_ON_BOTTOM_MIDDLE_POSITION.getOffset() * 2));
 			this.offhandSlotHeight(args, 2);
 		}
 	}
