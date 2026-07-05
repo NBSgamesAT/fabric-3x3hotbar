@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public interface ContextualBarMixin {
 
   @ModifyVariable(method = "extractExperienceLevel", at = @At(value = "STORE"), name = "y")
-  private static int adjustExpLevelDown(int initialValue){
+  private static int adjustExpLevelDown(int y){
     if(Hotbar3x3Client.moveUIDown()){
-      return initialValue + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
+      return y + EnumPixelMagicNumbers.UI_ELEMENTS_MOVE_DOWN_ON_BOTTOM_MIDDLE_POSITION.getOffset();
     }
-    return initialValue;
+    return y;
   }
   @Inject(method = "top", at = @At(value = "RETURN"), cancellable = true)
   private static void adjustBarDown(CallbackInfoReturnable<Integer> cir){
